@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✧ MyBlog ✧</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Caveat:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sakura: #FFB7C5;
+            --sakura-deep: #FF85A1;
+            --lavender: #C3AED6;
+            --lavender-deep: #9B72CF;
+            --sky: #A8D8EA;
+            --sky-deep: #5BB5D5;
+            --mint: #B5EAD7;
+            --peach: #FFDAC1;
+            --lemon: #FFF3B0;
+            --cream: #FFF8F0;
+            --bg: #FFF5F7;
+            --text: #4A3728;
+            --text-light: #8B7D75;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 4px 20px rgba(255, 133, 161, 0.12);
+            --shadow-hover: 0 12px 36px rgba(255, 133, 161, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', 'Zen Maru Gothic', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* ===== SPARKLE CURSOR ===== */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 12px;
+            animation: sparkleAnim 0.8s ease forwards;
+        }
+        @keyframes sparkleAnim {
+            0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-40px) scale(0) rotate(180deg); }
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            opacity: 0.5;
+            animation: particleFall linear infinite;
+        }
+        @keyframes particleFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(calc(100vh + 20px)) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-blobs {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 25s ease-in-out infinite;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--sakura); top: -15%; left: -10%; animation-delay: 0s; }
+        .blob-2 { width: 500px; height: 500px; background: var(--lavender); top: 25%; right: -10%; animation-delay: -7s; }
+        .blob-3 { width: 400px; height: 400px; background: var(--sky); bottom: -10%; left: 15%; animation-delay: -14s; }
+        .blob-4 { width: 350px; height: 350px; background: var(--mint); top: 55%; left: -15%; animation-delay: -20s; }
+        .blob-5 { width: 300px; height: 300px; background: var(--peach); top: 10%; right: 20%; animation-delay: -3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -40px) scale(1.08); }
+            50% { transform: translate(-30px, 60px) scale(0.92); }
+            75% { transform: translate(40px, 30px) scale(1.05); }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 245, 247, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 2px solid rgba(255, 183, 197, 0.3);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sakura-deep), var(--lavender-deep));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+        .logo::before { content: '✧ '; -webkit-text-fill-color: var(--sakura-deep); font-size: 0.8em; }
+        .logo::after { content: ' ✧'; -webkit-text-fill-color: var(--lavender-deep); font-size: 0.8em; }
+
+        nav { display: flex; gap: 1.8rem; align-items: center; }
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        nav a::before {
+            content: '⟡';
+            position: absolute;
+            left: 50%;
+            bottom: -8px;
+            transform: translateX(-50%) scale(0);
+            transition: transform 0.3s;
+            font-size: 0.6rem;
+            color: var(--sakura-deep);
+        }
+        nav a:hover { color: var(--sakura-deep); }
+        nav a:hover::before { transform: translateX(-50%) scale(1); }
+
+        .mobile-menu {
+            display: none;
+            background: none; border: none;
+            cursor: pointer; padding: 0.5rem;
+        }
+        .mobile-menu span {
+            display: block; width: 22px; height: 2px;
+            background: var(--sakura-deep); margin: 5px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+        }
+        .hero-deco {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1.4rem;
+            background: linear-gradient(135deg, var(--sakura), var(--lavender));
+            color: white;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: slideDown 0.8s ease;
+            box-shadow: 0 4px 15px rgba(255, 183, 197, 0.4);
+        }
+        .hero h1 {
+            font-family: 'Zen Maru Gothic', serif;
+            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            animation: slideDown 0.8s ease 0.1s both;
+        }
+        .hero h1 .highlight {
+            position: relative;
+            display: inline-block;
+            color: var(--sakura-deep);
+        }
+        .hero h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 2px; left: -6px; right: -6px;
+            height: 12px;
+            background: linear-gradient(90deg, var(--sakura), var(--lavender));
+            z-index: -1;
+            border-radius: 4px;
+            transform: rotate(-1.5deg);
+            opacity: 0.35;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            animation: slideDown 0.8s ease 0.2s both;
+        }
+        .divider {
+            text-align: center;
+            margin: 1rem 0 2rem;
+            font-size: 1.2rem;
+            color: var(--sakura);
+            letter-spacing: 8px;
+            opacity: 0.6;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto 2.5rem;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cat-btn {
+            padding: 0.45rem 1.2rem;
+            border: 2px solid rgba(255, 183, 197, 0.3);
+            border-radius: 50px;
+            background: var(--card-bg);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .cat-btn:hover, .cat-btn.active {
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .cat-btn:nth-child(1):hover, .cat-btn:nth-child(1).active { background: var(--sakura-deep); }
+        .cat-btn:nth-child(2):hover, .cat-btn:nth-child(2).active { background: var(--sky-deep); }
+        .cat-btn:nth-child(3):hover, .cat-btn:nth-child(3).active { background: var(--lavender-deep); }
+        .cat-btn:nth-child(4):hover, .cat-btn:nth-child(4).active { background: #E8A87C; }
+        .cat-btn:nth-child(5):hover, .cat-btn:nth-child(5).active { background: #85CDCA; }
+        .cat-btn:nth-child(6):hover, .cat-btn:nth-child(6).active { background: #E8A87C; }
+
+        /* ===== BLOG GRID ===== */
+        .blog-grid {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            animation: cardIn 0.6s ease both;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 2px solid rgba(255, 183, 197, 0.15);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+        .card::before {
+            content: '♡';
+            position: absolute;
+            top: 12px; right: 14px;
+            z-index: 5;
+            font-size: 1rem;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s;
+            text-shadow: 0 2px 8px rgba(255,133,161,0.5);
+        }
+        .card:hover::before { opacity: 1; transform: scale(1.3); }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) rotate(-1deg); }
+            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+        .card:hover {
+            transform: translateY(-10px) rotate(0.5deg);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--sakura);
+        }
+
+        .card-img-placeholder {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(255,255,255,0.05) 20px,
+                rgba(255,255,255,0.05) 21px
+            );
+        }
+
+        .card-img-placeholder.c1 { background: linear-gradient(135deg, var(--sakura), var(--sakura-deep)); }
+        .card-img-placeholder.c2 { background: linear-gradient(135deg, var(--sky), var(--sky-deep)); }
+        .card-img-placeholder.c3 { background: linear-gradient(135deg, var(--lavender), var(--lavender-deep)); }
+        .card-img-placeholder.c4 { background: linear-gradient(135deg, var(--mint), var(--sky)); }
+        .card-img-placeholder.c5 { background: linear-gradient(135deg, var(--peach), var(--sakura)); }
+        .card-img-placeholder.c6 { background: linear-gradient(135deg, var(--lemon), var(--peach)); }
+
+        .card-body { padding: 1.4rem 1.5rem; }
+        .card-tag {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.7rem;
+        }
+        .tag-tech { background: rgba(168, 216, 234, 0.3); color: var(--sky-deep); }
+        .tag-life { background: rgba(255, 183, 197, 0.3); color: var(--sakura-deep); }
+        .tag-code { background: rgba(195, 174, 214, 0.3); color: var(--lavender-deep); }
+        .tag-travel { background: rgba(181, 234, 215, 0.3); color: #3a9e7e; }
+        .tag-anime { background: rgba(255, 218, 193, 0.3); color: #E8A87C; }
+
+        .card-title {
+            font-family: 'Zen Maru Gothic', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .card-excerpt {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+        .card-meta .read-time {
+            padding: 0.2rem 0.6rem;
+            background: rgba(255, 183, 197, 0.15);
+            border-radius: 20px;
+            color: var(--sakura-deep);
+            font-weight: 600;
+        }
+
+        /* ===== FEATURED ===== */
+        .card.featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+        }
+        .card.featured .card-img-placeholder { height: 100%; min-height: 320px; font-size: 5rem; }
+        .card.featured .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2.5rem;
+        }
+        .card.featured .card-title { font-size: 1.7rem; }
+        .card.featured .card-excerpt { -webkit-line-clamp: 4; }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 2rem 5rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--sakura-deep), var(--lavender-deep));
+            border-radius: 24px;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        @media (min-width: 768px) {
+            .newsletter { margin-left: auto; margin-right: auto; }
+        }
+        .newsletter::before {
+            content: '✦';
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: spin 8s linear infinite;
+        }
+        .newsletter::after {
+            content: '❀';
+            position: absolute;
+            bottom: 15px; left: 20px;
+            font-size: 2.5rem;
+            opacity: 0.25;
+            animation: spin 12s linear infinite reverse;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .newsletter h2 {
+            font-family: 'Zen Maru Gothic', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+        }
+        .newsletter p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 0.6rem;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.85rem 1.2rem;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.92rem;
+            outline: none;
+            background: rgba(255,255,255,0.95);
+        }
+        .newsletter-form input::placeholder { color: var(--sakura); }
+        .newsletter-form button {
+            padding: 0.85rem 1.8rem;
+            border: none;
+            border-radius: 14px;
+            background: var(--text);
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .newsletter-form button:hover {
+            transform: scale(1.06);
+            background: #2a1f15;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            border-top: 2px solid rgba(255, 183, 197, 0.2);
+        }
+        footer a {
+            color: var(--sakura-deep);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-deco {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 6px;
+        }
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .social-links a {
+            width: 42px; height: 42px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 183, 197, 0.15);
+            transition: all 0.3s;
+            font-size: 1.05rem;
+            border: 2px solid rgba(255, 183, 197, 0.2);
+        }
+        .social-links a:hover {
+            background: var(--sakura-deep);
+            border-color: var(--sakura-deep);
+            color: white;
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(255, 133, 161, 0.35);
+        }
+
+        /* ===== SCROLL TOP ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            z-index: 99;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sakura), var(--lavender));
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 133, 161, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scroll-top.show { opacity: 1; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-4px) scale(1.1); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-inner { padding: 0.7rem 1.2rem; }
+            nav { display: none; }
+            .mobile-menu { display: block; }
+            nav.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: rgba(255, 245, 247, 0.97);
+                backdrop-filter: blur(24px);
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 2px solid rgba(255, 183, 197, 0.2);
+            }
+            .hero { padding: 3rem 1.2rem 2rem; }
+            .hero-deco { font-size: 2.5rem; }
+            .blog-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1.2rem 3rem;
+            }
+            .card.featured { grid-template-columns: 1fr; }
+            .card.featured .card-img-placeholder { min-height: 200px; font-size: 3.5rem; }
+            .card.featured .card-body { padding: 1.5rem; }
+            .card.featured .card-title { font-size: 1.3rem; }
+            .newsletter-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Animated background -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">MyBlog</a>
+            <nav id="nav">
+                <a href="#">☆ Trang chủ</a>
+                <a href="#">✎ Bài viết</a>
+                <a href="#">♡ Về tôi</a>
+                <a href="#">✉ Liên hệ</a>
+            </nav>
+            <button class="mobile-menu" onclick="document.getElementById('nav').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-deco">🌸</div>
+        <div class="hero-badge">✨ ようこそ — Chào mừng bạn</div>
+        <h1>
+            Nơi chia sẻ<br>
+            <span class="highlight">câu chuyện</span> & ý tưởng
+        </h1>
+        <p>Viết về công nghệ, cuộc sống, lập trình và những điều thú vị mỗi ngày ✦ Cùng nhau học hỏi và phát triển~</p>
+        <div class="divider">✦ ✧ ✦ ✧ ✦</div>
+    </section>
+
+    <!-- Categories -->
+    <div class="categories">
+        <button class="cat-btn active">⟡ Tất cả</button>
+        <button class="cat-btn">⚙ Công nghệ</button>
+        <button class="cat-btn">⌨ Lập trình</button>
+        <button class="cat-btn">✈ Du lịch</button>
+        <button class="cat-btn">☕ Cuộc sống</button>
+        <button class="cat-btn">🌸 Anime</button>
+    </div>
+
+    <!-- Blog Grid -->
+    <div class="blog-grid">
+        <a class="card featured" href="blog/honami-ichinose.html">
+            <div class="card-img-placeholder c5">🌸💕</div>
+            <div class="card-body">
+                <span class="card-tag tag-anime">Anime</span>
+                <h2 class="card-title">Honami Ichinose — Thiên thần hay kẻ đấu mặt giữa Classroom of the Elite? ✦</h2>
+                <p class="card-excerpt">Trong thế giới đầy mưu mô của COTE, Ichinose nổi lên như một tia nắng ấm áp. Nhưng liệu sự tốt bụng có phải là sức mạnh thực sự, hay chỉ là điểm yếu chí tử? Cùng tìm hiểu nhé~</p>
+                <div class="card-meta">
+                    <span class="date">🌸 02 Tháng 4, 2026</span>
+                    <span class="read-time">7 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c1">🚀✨</div>
+            <div class="card-body">
+                <span class="card-tag tag-tech">Công nghệ</span>
+                <h2 class="card-title">Xu hướng AI năm 2026: Những điều bạn cần biết ✦</h2>
+                <p class="card-excerpt">Trí tuệ nhân tạo đang thay đổi mọi thứ xung quanh chúng ta. Từ cách chúng ta làm việc, học tập cho đến giải trí. Hãy cùng khám phá những xu hướng nổi bật nhất~</p>
+                <div class="card-meta">
+                    <span class="date">🌸 01 Tháng 4, 2026</span>
+                    <span class="read-time">5 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c2">💻⚡</div>
+            <div class="card-body">
+                <span class="card-tag tag-code">Lập trình</span>
+                <h2 class="card-title">Học JavaScript từ con số 0</h2>
+                <p class="card-excerpt">Hướng dẫn chi tiết cho người mới bắt đầu. Từ biến, hàm đến DOM manipulation — tất cả trong một bài viết~</p>
+                <div class="card-meta">
+                    <span class="date">🌸 28 Tháng 3, 2026</span>
+                    <span class="read-time">8 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c3">🌍🗺</div>
+            <div class="card-body">
+                <span class="card-tag tag-travel">Du lịch</span>
+                <h2 class="card-title">Hành trình khám phá Đà Lạt mùa hoa</h2>
+                <p class="card-excerpt">Đà Lạt trong tiết trời se lạnh, hoa dã quỳ nở vàng rực — một trải nghiệm không thể bỏ lỡ ♡</p>
+                <div class="card-meta">
+                    <span class="date">🌸 25 Tháng 3, 2026</span>
+                    <span class="read-time">4 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c4">📱🎯</div>
+            <div class="card-body">
+                <span class="card-tag tag-tech">Công nghệ</span>
+                <h2 class="card-title">Top 5 ứng dụng productivity nên thử</h2>
+                <p class="card-excerpt">Những ứng dụng giúp bạn tăng năng suất, quản lý thời gian hiệu quả hơn mỗi ngày~</p>
+                <div class="card-meta">
+                    <span class="date">🌸 20 Tháng 3, 2026</span>
+                    <span class="read-time">3 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c5">☕🌅</div>
+            <div class="card-body">
+                <span class="card-tag tag-life">Cuộc sống</span>
+                <h2 class="card-title">Morning routine cho developer</h2>
+                <p class="card-excerpt">Bắt đầu ngày mới thế nào để có năng lượng tối đa? Chia sẻ thói quen buổi sáng của một lập trình viên ♡</p>
+                <div class="card-meta">
+                    <span class="date">🌸 15 Tháng 3, 2026</span>
+                    <span class="read-time">4 phút đọc</span>
+                </div>
+            </div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="card-img-placeholder c6">🎨✏</div>
+            <div class="card-body">
+                <span class="card-tag tag-code">Lập trình</span>
+                <h2 class="card-title">CSS Grid vs Flexbox: Khi nào dùng gì?</h2>
+                <p class="card-excerpt">So sánh chi tiết hai hệ thống layout phổ biến nhất trong CSS hiện đại. Ví dụ thực tế đi kèm~</p>
+                <div class="card-meta">
+                    <span class="date">🌸 10 Tháng 3, 2026</span>
+                    <span class="read-time">6 phút đọc</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+        <h2>📬 Đăng ký nhận bài mới~</h2>
+        <p>Nhận thông báo khi có bài viết mới. Không spam, hứa luôn! ♡</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email của bạn ✦">
+            <button>Đăng ký ♡</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-deco">🌸 ✦ 🌸</div>
+        <div class="social-links">
+            <a href="#" title="GitHub">⌨</a>
+            <a href="#" title="Facebook">f</a>
+            <a href="#" title="Twitter">𝕏</a>
+        </div>
+        <p>© 2026 <a href="#">✧ MyBlog ✧</a> — Made with ♡ & GitHub Pages</p>
+    </footer>
+
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // Category filter
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Scroll-to-top
+        window.addEventListener('scroll', () => {
+            document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+        });
+
+        // Sparkle trail on mouse move
+        const sparkles = ['✦', '✧', '⟡', '♡', '☆', '❀'];
+        let lastSparkle = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastSparkle < 120) return;
+            lastSparkle = now;
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+            s.style.left = e.clientX + 'px';
+            s.style.top = e.clientY + 'px';
+            s.style.color = ['#FFB7C5','#C3AED6','#A8D8EA','#B5EAD7','#FFDAC1'][Math.floor(Math.random()*5)];
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 800);
+        });
+
+        // Floating sakura/star particles
+        const particleContainer = document.getElementById('particles');
+        const particleChars = ['🌸', '✦', '✧', '❀', '⟡', '☆'];
+        function createParticle() {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.textContent = particleChars[Math.floor(Math.random() * particleChars.length)];
+            p.style.left = Math.random() * 100 + '%';
+            p.style.fontSize = (Math.random() * 14 + 8) + 'px';
+            const duration = Math.random() * 15 + 10;
+            p.style.animationDuration = duration + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            particleContainer.appendChild(p);
+            setTimeout(() => p.remove(), (duration + 10) * 1000);
+        }
+        for (let i = 0; i < 20; i++) createParticle();
+        setInterval(createParticle, 2000);
+    </script>
+</body>
+</html>

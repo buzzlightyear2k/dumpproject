@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Honami Ichinose — Classroom of the Elite | MyBlog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Caveat:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --sakura: #ffb7c5;
+        --sakura-deep: #ff85a1;
+        --lavender: #c3aed6;
+        --lavender-deep: #9b72cf;
+        --sky: #a8d8ea;
+        --sky-deep: #5bb5d5;
+        --mint: #b5ead7;
+        --peach: #ffdac1;
+        --lemon: #fff3b0;
+        --cream: #fff8f0;
+        --bg: #fff5f7;
+        --text: #4a3728;
+        --text-light: #8b7d75;
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --shadow: 0 4px 20px rgba(255, 133, 161, 0.12);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Quicksand", "Zen Maru Gothic", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.8;
+        overflow-x: hidden;
+      }
+
+      /* ===== SPARKLE CURSOR ===== */
+      .sparkle {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 12px;
+        animation: sparkleAnim 0.8s ease forwards;
+      }
+      @keyframes sparkleAnim {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-40px) scale(0) rotate(180deg);
+        }
+      }
+
+      /* ===== FLOATING PARTICLES ===== */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .particle {
+        position: absolute;
+        opacity: 0.5;
+        animation: particleFall linear infinite;
+      }
+      @keyframes particleFall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(calc(100vh + 20px)) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* ===== ANIMATED BACKGROUND ===== */
+      .bg-blobs {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.3;
+        animation: float 25s ease-in-out infinite;
+      }
+      .blob-1 {
+        width: 600px;
+        height: 600px;
+        background: var(--sakura);
+        top: -15%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+      .blob-2 {
+        width: 500px;
+        height: 500px;
+        background: var(--lavender);
+        top: 25%;
+        right: -10%;
+        animation-delay: -7s;
+      }
+      .blob-3 {
+        width: 400px;
+        height: 400px;
+        background: var(--sky);
+        bottom: -10%;
+        left: 15%;
+        animation-delay: -14s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(50px, -40px) scale(1.08);
+        }
+        50% {
+          transform: translate(-30px, 60px) scale(0.92);
+        }
+        75% {
+          transform: translate(40px, 30px) scale(1.05);
+        }
+      }
+
+      /* ===== HEADER ===== */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255, 245, 247, 0.75);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-bottom: 2px solid rgba(255, 183, 197, 0.3);
+      }
+      .header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0.8rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-family: "Caveat", cursive;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--sakura-deep),
+          var(--lavender-deep)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+      }
+      .logo::before {
+        content: "✧ ";
+        -webkit-text-fill-color: var(--sakura-deep);
+        font-size: 0.8em;
+      }
+      .logo::after {
+        content: " ✧";
+        -webkit-text-fill-color: var(--lavender-deep);
+        font-size: 0.8em;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.8rem;
+        align-items: center;
+      }
+      nav a {
+        text-decoration: none;
+        color: var(--text-light);
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        position: relative;
+        padding: 0.3rem 0;
+      }
+      nav a::before {
+        content: "⟡";
+        position: absolute;
+        left: 50%;
+        bottom: -8px;
+        transform: translateX(-50%) scale(0);
+        transition: transform 0.3s;
+        font-size: 0.6rem;
+        color: var(--sakura-deep);
+      }
+      nav a:hover {
+        color: var(--sakura-deep);
+      }
+      nav a:hover::before {
+        transform: translateX(-50%) scale(1);
+      }
+
+      .mobile-menu {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+      .mobile-menu span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--sakura-deep);
+        margin: 5px 0;
+        transition: 0.3s;
+        border-radius: 2px;
+      }
+
+      /* ===== ARTICLE ===== */
+      .article-container {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 3rem 2rem 4rem;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: var(--sakura-deep);
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s;
+      }
+      .back-link:hover {
+        transform: translateX(-4px);
+      }
+
+      .article-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .article-tag {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        background: rgba(255, 183, 197, 0.3);
+        color: var(--sakura-deep);
+      }
+      .article-title {
+        font-family: "Zen Maru Gothic", serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 900;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+        animation: slideDown 0.8s ease both;
+      }
+      .article-meta {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        font-size: 0.85rem;
+        color: var(--text-light);
+        flex-wrap: wrap;
+      }
+      .article-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .article-hero {
+        width: 100%;
+        height: 400px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        background: linear-gradient(135deg, var(--sakura), var(--lavender));
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      .article-hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 20px,
+          rgba(255, 255, 255, 0.05) 20px,
+          rgba(255, 255, 255, 0.05) 21px
+        );
+      }
+
+      .article-content {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: var(--shadow);
+        border: 2px solid rgba(255, 183, 197, 0.15);
+        backdrop-filter: blur(10px);
+        animation: cardIn 0.6s ease both;
+      }
+
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .article-content h2 {
+        font-family: "Zen Maru Gothic", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 2.5rem 0 1rem;
+        color: var(--sakura-deep);
+        position: relative;
+        padding-left: 1.2rem;
+      }
+      .article-content h2::before {
+        content: "✦";
+        position: absolute;
+        left: 0;
+        color: var(--lavender-deep);
+        font-size: 0.9rem;
+      }
+      .article-content h2:first-child {
+        margin-top: 0;
+      }
+
+      .article-content p {
+        margin-bottom: 1.2rem;
+        font-size: 1rem;
+        color: var(--text);
+        text-align: justify;
+      }
+
+      .article-content blockquote {
+        margin: 2rem 0;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 183, 197, 0.1),
+          rgba(195, 174, 214, 0.1)
+        );
+        border-left: 4px solid var(--sakura-deep);
+        border-radius: 0 16px 16px 0;
+        font-style: italic;
+        color: var(--text-light);
+      }
+      .article-content blockquote p {
+        margin-bottom: 0;
+      }
+
+      .character-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 183, 197, 0.08),
+          rgba(195, 174, 214, 0.08)
+        );
+        border-radius: 16px;
+        border: 1px solid rgba(255, 183, 197, 0.2);
+      }
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .info-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--sakura-deep);
+      }
+      .info-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .divider-line {
+        text-align: center;
+        margin: 2rem 0;
+        font-size: 1rem;
+        color: var(--sakura);
+        letter-spacing: 8px;
+        opacity: 0.5;
+      }
+
+      .article-footer {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid rgba(255, 183, 197, 0.2);
+        text-align: center;
+      }
+      .article-footer p {
+        text-align: center;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(255, 245, 247, 0.8);
+        backdrop-filter: blur(20px);
+        border-top: 2px solid rgba(255, 183, 197, 0.2);
+      }
+      .footer-deco {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        letter-spacing: 4px;
+      }
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--card-bg);
+        box-shadow: 0 2px 8px rgba(255, 183, 197, 0.15);
+        text-decoration: none;
+        font-size: 1rem;
+        transition: all 0.3s;
+        border: 2px solid rgba(255, 183, 197, 0.2);
+      }
+      .social-links a:hover {
+        transform: translateY(-3px) scale(1.1);
+        box-shadow: 0 6px 20px rgba(255, 133, 161, 0.3);
+        border-color: var(--sakura);
+      }
+      footer p {
+        font-size: 0.85rem;
+        color: var(--text-light);
+      }
+      footer a {
+        color: var(--sakura-deep);
+        text-decoration: none;
+      }
+
+      .scroll-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--sakura-deep),
+          var(--lavender-deep)
+        );
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 15px rgba(255, 133, 161, 0.3);
+        z-index: 100;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s;
+      }
+      .scroll-top.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .scroll-top:hover {
+        transform: translateY(-3px) scale(1.05);
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        nav {
+          display: none;
+        }
+        nav.open {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(255, 245, 247, 0.98);
+          padding: 1.5rem;
+          gap: 1rem;
+          backdrop-filter: blur(24px);
+          border-bottom: 2px solid rgba(255, 183, 197, 0.3);
+        }
+        .mobile-menu {
+          display: block;
+        }
+        .article-content {
+          padding: 1.5rem;
+        }
+        .character-info {
+          grid-template-columns: 1fr;
+        }
+        .article-hero {
+          height: 220px;
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="particles" id="particles"></div>
+
+    <div class="bg-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <header>
+      <div class="header-inner">
+        <a href="../index.html" class="logo">MyBlog</a>
+        <nav id="nav">
+          <a href="../index.html">☆ Trang chủ</a>
+          <a href="#">✎ Bài viết</a>
+          <a href="#">♡ Về tôi</a>
+          <a href="#">✉ Liên hệ</a>
+        </nav>
+        <button
+          class="mobile-menu"
+          onclick="document.getElementById('nav').classList.toggle('open')"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="article-container">
+      <a href="../index.html" class="back-link">← Quay về trang chủ</a>
+
+      <div class="article-header">
+        <span class="article-tag">Anime</span>
+        <h1 class="article-title">
+          Honami Ichinose — Thiên thần hay kẻ đấu mặt giữa Classroom of the
+          Elite?
+        </h1>
+        <div class="article-meta">
+          <span>🌸 02 Tháng 4, 2026</span>
+          <span>☕ 7 phút đọc</span>
+          <span>✎ Bài viết đầu tiên</span>
+        </div>
+      </div>
+
+      <div class="article-hero">
+        <img
+          src="https://wallpapercave.com/wp/wp6412368.jpg"
+          alt="Honami Ichinose - Classroom of the Elite"
+          style="width: 100%; height: 100%; object-fit: cover"
+        />
+      </div>
+
+      <div class="article-content">
+        <h2>Giới thiệu về Ichinose Honami</h2>
+        <p>
+          Trong thế giới đầy mưu mô và toan tính của
+          <strong>Classroom of the Elite</strong> (Youkoso Jitsuryoku Shijou
+          Shugi no Kyoushitsu e), nơi mà mọi học sinh đều mang trong mình những
+          bí mật và chiến lược riêng, Ichinose Honami nổi lên như một tia nắng
+          ấm áp — một người luôn tin vào lòng tốt của con người và sức mạnh của
+          sự đoàn kết.
+        </p>
+        <p>
+          Là trưởng lớp B (sau này là lớp C trong light novel), Ichinose là hình
+          mẫu của một nhà lãnh đạo lý tưởng: thân thiện, đáng tin cậy, và luôn
+          đặt lợi ích tập thể lên trên hết. Nhưng câu hỏi đặt ra là — trong một
+          ngôi trường nơi "thực lực là tất cả", liệu sự tốt bụng của cô có phải
+          là sức mạnh thực sự, hay là một điểm yếu chí tử?
+        </p>
+
+        <div style="text-align: center; margin: 2rem 0">
+          <img
+            src="https://wallpapercave.com/wp/wp7668378.jpg"
+            alt="Ichinose Honami official art"
+            style="
+              max-width: 100%;
+              border-radius: 16px;
+              box-shadow: 0 4px 20px rgba(255, 133, 161, 0.2);
+            "
+          />
+        </div>
+
+        <div class="character-info">
+          <div class="info-item">
+            <span class="info-label">Họ và tên</span>
+            <span class="info-value">Ichinose Honami (一之瀬 帆波)</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Lớp</span>
+            <span class="info-value">Lớp B (→ Lớp C)</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Vai trò</span>
+            <span class="info-value">Trưởng lớp</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Tính cách</span>
+            <span class="info-value">Thân thiện, nhiệt tình, đáng tin cậy</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Khả năng</span>
+            <span class="info-value">Lãnh đạo, giao tiếp, chiến lược</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Đặc điểm</span>
+            <span class="info-value">Được yêu mến bởi hầu hết học sinh</span>
+          </div>
+        </div>
+
+        <h2>Phong cách lãnh đạo — Sức mạnh của lòng tin</h2>
+        <p>
+          Khác với Ayanokoji Kiyotaka — người điều khiển từ bóng tối, hay Ryuuen
+          Kakeru — kẻ dùng bạo lực và đe dọa, Ichinose chọn một con đường hoàn
+          toàn khác biệt: <strong>xây dựng lòng tin và sự đoàn kết</strong>.
+        </p>
+        <p>
+          Lớp B của cô là lớp duy nhất mà mọi thành viên đều gắn kết chặt chẽ
+          với nhau. Không có sự phản bội, không có những cuộc đấu đá nội bộ. Tất
+          cả là nhờ cách Ichinose đối xử với mọi người — cô lắng nghe, cô quan
+          tâm, và cô sẵn sàng hy sinh lợi ích cá nhân để bảo vệ tập thể.
+        </p>
+        <p>
+          Chiến lược tích lũy điểm (private points) của cô là một minh chứng rõ
+          ràng. Thay vì để mọi người tự do tiêu xài, cô thuyết phục cả lớp góp
+          chung và sử dụng chung một cách chiến lược. Đây là một nước đi cực kỳ
+          thông minh cho thấy cô không chỉ có lòng tốt — cô còn có đầu óc.
+        </p>
+
+        <blockquote>
+          <p>
+            "Tôi tin rằng mọi người đều có thể trở nên tốt đẹp hơn nếu họ được
+            tin tưởng và yêu thương."
+          </p>
+        </blockquote>
+
+        <div style="text-align: center; margin: 2rem 0">
+          <img
+            src="https://static.zerochan.net/Ichinose.Honami.%28Youkoso%29.full.3902576.jpg"
+            alt="Ichinose Honami"
+            style="
+              max-width: 100%;
+              border-radius: 16px;
+              box-shadow: 0 4px 20px rgba(255, 133, 161, 0.2);
+            "
+          />
+        </div>
+
+        <h2>Bí mật và sự sụp đổ</h2>
+        <p>
+          Nhưng ai chèo thuyền trên dòng nước lặng cũng sẽ gặp phong ba.
+          Ichinose mang trong mình một bí mật từ quá khứ — cô đã từng ăn cắp
+          hàng ở cửa hàng khi còn nhỏ. Dù là một lỗi lầm của tuổi trẻ, nó trở
+          thành vũ khí để kẻ khác lợi dụng.
+        </p>
+        <p>
+          Khi Sakayanagi Arisu phát hiện và đe dọa phơi bày bí mật này, Ichinose
+          rơi vào trạng thái khủng hoảng tinh thần. Lần đầu tiên, người đọc thấy
+          được sự mong manh ẩn sau vẻ ngoài tươi cười của cô. Cô tự cách ly
+          mình, bỏ học, và gần như sụp đổ hoàn toàn.
+        </p>
+        <p>
+          Đây là một trong những arc cảm xúc nhất của series. Nó cho thấy rằng
+          dù bạn tốt bụng và được yêu mến đến đâu, chỉ cần một bí mật cũng đủ để
+          tàn phá tất cả — đặc biệt khi bạn đang ở trong một môi trường mà mọi
+          người đều sẵn sàng lợi dụng điểm yếu của nhau.
+        </p>
+
+        <div class="divider-line">✦ ✧ ✦ ✧ ✦</div>
+
+        <h2>Mối quan hệ với Ayanokoji</h2>
+        <p>
+          Một trong những khía cạnh thú vị nhất của Ichinose là mối quan hệ của
+          cô với Ayanokoji Kiyotaka. Cô là một trong số ít người thật sự quan
+          tâm đến anh với tư cách cá nhân, không phải vì mục đích lợi dụng.
+        </p>
+
+        <div style="text-align: center; margin: 2rem 0">
+          <img
+            src="https://static.zerochan.net/Ichinose.Honami.%28Youkoso%29.full.4132476.jpg"
+            alt="Ichinose Honami và Ayanokoji"
+            style="
+              max-width: 100%;
+              border-radius: 16px;
+              box-shadow: 0 4px 20px rgba(255, 133, 161, 0.2);
+            "
+          />
+        </div>
+
+        <p>
+          Ichinose phát triển tình cảm với Ayanokoji — một tình cảm chân thành
+          và trong sáng. Cô là người duy nhất dạn dĩ thừa nhận tình cảm của mình
+          với anh. Nhưng đáu buồn thay, Ayanokoji — với bản chất lạnh lùng và
+          thực dụng — không thể đáp lại tình cảm đó theo cách cô mong muốn.
+        </p>
+        <p>
+          Mối quan hệ này làm nổi bật sự tương phản giữa hai người: Ichinose đại
+          diện cho cảm xúc, lòng tin và sự chân thành, trong khi Ayanokoji đại
+          diện cho lý trí, toan tính và sự cô độc. Họ như hai mặt của một đồng
+          xu — hiểu nhau nhưng không thể ở bên nhau.
+        </p>
+
+        <h2>Sự trưởng thành qua đau thương</h2>
+        <p>
+          Từ một cô gái ngây thơ tin vào thế giới, Ichinose dần trưởng thành qua
+          những lần thất bại và tổn thương. Cô học được rằng lòng tốt không phải
+          lúc nào cũng là lá chắn, và đôi khi cần phải cứng rắn để bảo vệ những
+          người mình yêu thương.
+        </p>
+        <p>
+          Trong các volume sau của light novel, Ichinose bắt đầu thay đổi phong
+          cách lãnh đạo. Cô không còn chỉ dựa vào lòng tin tuyệt đối mà bắt đầu
+          học cách đối mặt với thực tế khắc nghiệt của Advanced Nurturing High
+          School. Sự thay đổi này không làm cô mất đi bản chất tốt đẹp — nó chỉ
+          làm cô thêm mạnh mẽ hơn.
+        </p>
+
+        <div style="text-align: center; margin: 2rem 0">
+          <img
+            src="https://static.zerochan.net/Ichinose.Honami.%28Youkoso%29.full.4191624.jpg"
+            alt="Ichinose Honami trưởng thành"
+            style="
+              max-width: 100%;
+              border-radius: 16px;
+              box-shadow: 0 4px 20px rgba(255, 133, 161, 0.2);
+            "
+          />
+        </div>
+
+        <h2>Tại sao Ichinose là nhân vật đặc biệt?</h2>
+        <p>
+          Trong một series mà hầu hết nhân vật đều xám — đều có những mặt tối và
+          động cơ ích kỷ — Ichinose như một vì sao sáng. Cô không hoàn hảo, cô
+          có bí mật, cô có điểm yếu. Nhưng điều làm cô đặc biệt là cô
+          <strong>luôn cố gắng làm điều đúng</strong>, dù điều đó có thể gây hại
+          cho chính mình.
+        </p>
+        <p>
+          Cô là bài học sống động về việc: trong một thế giới đầy cạnh tranh và
+          mưu mô, giữ gìn lòng tốt không phải là sự ngớ ngẩn — đó là một sự lựa
+          chọn dũng cảm. Và dù có thể không phải là người mạnh nhất, Ichinose
+          chắc chắn là người có tâm lớn nhất trong Classroom of the Elite.
+        </p>
+
+        <blockquote>
+          <p>
+            "Ichinose không chiến đấu để chiến thắng. Cô chiến đấu để không ai
+            phải thua."
+          </p>
+        </blockquote>
+
+        <div class="article-footer">
+          <p>
+            Cảm ơn bạn đã đọc bài viết đầu tiên của mình! Nếu bạn cũng yêu thích
+            Classroom of the Elite, hãy để lại suy nghĩ của bạn nhé~ ♡
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-deco">🌸 ✦ 🌸</div>
+      <div class="social-links">
+        <a href="#" title="GitHub">⌨</a>
+        <a href="#" title="Facebook">f</a>
+        <a href="#" title="Twitter">𝕏</a>
+      </div>
+      <p>
+        © 2026 <a href="../index.html">✧ MyBlog ✧</a> — Made with ♡ & GitHub
+        Pages
+      </p>
+    </footer>
+
+    <button
+      class="scroll-top"
+      id="scrollTop"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      ↑
+    </button>
+
+    <script>
+      // Scroll-to-top
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("scrollTop")
+          .classList.toggle("show", window.scrollY > 400);
+      });
+
+      // Sparkle trail
+      const sparkles = ["✦", "✧", "⟡", "♡", "☆", "❀"];
+      let lastSparkle = 0;
+      document.addEventListener("mousemove", (e) => {
+        const now = Date.now();
+        if (now - lastSparkle < 120) return;
+        lastSparkle = now;
+        const s = document.createElement("div");
+        s.className = "sparkle";
+        s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        s.style.left = e.clientX + "px";
+        s.style.top = e.clientY + "px";
+        s.style.color = ["#FFB7C5", "#C3AED6", "#A8D8EA", "#B5EAD7", "#FFDAC1"][
+          Math.floor(Math.random() * 5)
+        ];
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 800);
+      });
+
+      // Floating particles
+      const particleContainer = document.getElementById("particles");
+      const particleChars = ["🌸", "✦", "✧", "❀", "⟡", "☆"];
+      function createParticle() {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.textContent =
+          particleChars[Math.floor(Math.random() * particleChars.length)];
+        p.style.left = Math.random() * 100 + "%";
+        p.style.fontSize = Math.random() * 14 + 8 + "px";
+        const duration = Math.random() * 15 + 10;
+        p.style.animationDuration = duration + "s";
+        p.style.animationDelay = Math.random() * 10 + "s";
+        particleContainer.appendChild(p);
+        setTimeout(() => p.remove(), (duration + 10) * 1000);
+      }
+      for (let i = 0; i < 15; i++) createParticle();
+      setInterval(createParticle, 3000);
+    </script>
+  </body>
+</html>
