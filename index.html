@@ -654,17 +654,17 @@
 
     <!-- Categories -->
     <div class="categories">
-        <button class="cat-btn active">⟡ Tất cả</button>
-        <button class="cat-btn">⚙ Công nghệ</button>
-        <button class="cat-btn">⌨ Lập trình</button>
-        <button class="cat-btn">✈ Du lịch</button>
-        <button class="cat-btn">☕ Cuộc sống</button>
-        <button class="cat-btn">🌸 Anime</button>
+        <button class="cat-btn active" data-filter="all">⟡ Tất cả</button>
+        <button class="cat-btn" data-filter="tech">⚙ Công nghệ</button>
+        <button class="cat-btn" data-filter="code">⌨ Lập trình</button>
+        <button class="cat-btn" data-filter="travel">✈ Du lịch</button>
+        <button class="cat-btn" data-filter="life">☕ Cuộc sống</button>
+        <button class="cat-btn" data-filter="anime">🌸 Anime</button>
     </div>
 
     <!-- Blog Grid -->
     <div class="blog-grid">
-        <a class="card featured" href="blog/honami-ichinose.html">
+        <a class="card featured" href="blog/honami-ichinose.html" data-category="anime">
             <div class="card-img-placeholder c5">🌸💕</div>
             <div class="card-body">
                 <span class="card-tag tag-anime">Anime</span>
@@ -677,7 +677,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="tech">
             <div class="card-img-placeholder c1">🚀✨</div>
             <div class="card-body">
                 <span class="card-tag tag-tech">Công nghệ</span>
@@ -690,7 +690,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="code">
             <div class="card-img-placeholder c2">💻⚡</div>
             <div class="card-body">
                 <span class="card-tag tag-code">Lập trình</span>
@@ -703,7 +703,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="travel">
             <div class="card-img-placeholder c3">🌍🗺</div>
             <div class="card-body">
                 <span class="card-tag tag-travel">Du lịch</span>
@@ -716,7 +716,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="tech">
             <div class="card-img-placeholder c4">📱🎯</div>
             <div class="card-body">
                 <span class="card-tag tag-tech">Công nghệ</span>
@@ -729,7 +729,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="life">
             <div class="card-img-placeholder c5">☕🌅</div>
             <div class="card-body">
                 <span class="card-tag tag-life">Cuộc sống</span>
@@ -742,7 +742,7 @@
             </div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="#" data-category="code">
             <div class="card-img-placeholder c6">🎨✏</div>
             <div class="card-body">
                 <span class="card-tag tag-code">Lập trình</span>
@@ -785,6 +785,14 @@
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
         });
 
